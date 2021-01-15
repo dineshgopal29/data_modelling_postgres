@@ -8,6 +8,14 @@ import string
 
 
 def process_song_file(cur, filepath):
+    
+    """
+     process_song_file(cur, filepath)
+     takes in JSON log filepath and parse the data for each file and stores it ina dataframe
+     
+     The dataframe is then used to insert into song and artist tables
+    """
+    
     # open song file
     df= pd.read_json(filepath, lines=True)
 
@@ -21,6 +29,14 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    
+     """
+     process_log_file(cur, filepath)
+     takes in JSON log filepath and parse the data for each file and stores it ina dataframe
+     
+     The dataframe is then used to insert into user,time and songsplay tables
+    """
+        
     # open log file
     df= pd.read_json(filepath, lines=True)
 
@@ -67,13 +83,19 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = (''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(16)),
-                     row.time,row.userId, row.level,songid, artistid,row.sessionId, row.location
-                     ,row.userAgent)
+        songplay_data = (row.time,row.userId, row.level,songid, artistid,row.sessionId, row.location,row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
+    
+    """
+     process_data(cur, conn, filepath, func)
+     takes in the databse cursor, connection and root folder path
+     and loops through the folder directory 
+     and get the file paths for all the JSON log files
+    """
+    
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):

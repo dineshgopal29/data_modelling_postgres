@@ -1,10 +1,10 @@
 # DROP TABLES
 
-songplay_table_drop = "DROP table songplays"
-user_table_drop = "DROP table users"
-song_table_drop = "DROP table songs"
-artist_table_drop = "DROP table artists"
-time_table_drop = "DROP table time"
+songplay_table_drop = "DROP TABLE IF EXISTS songplays"
+user_table_drop = "DROP TABLE IF EXISTS users"
+song_table_drop = "DROP TABLE IF EXISTS songs"
+artist_table_drop = "DROP TABLE IF EXISTS artists"
+time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
@@ -12,8 +12,8 @@ songplay_table_create = ("""
 
 CREATE TABLE IF NOT EXISTS songplays (
 songplay_id SERIAL PRIMARY KEY, 
-start_time time NULL, 
-user_id varchar NULL, 
+start_time TIMESTAMP NULL, 
+user_id int NULL, 
 level varchar NULL, 
 song_id varchar NULL, 
 artist_id varchar NULL, 
@@ -35,8 +35,8 @@ level varchar)
 
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs (
-song_id varchar NOT NULL, 
-title varchar, 
+song_id varchar PRIMARY KEY NOT NULL, 
+title varchar NOT NULL, 
 artist_id varchar, 
 year int, 
 duration decimal
@@ -46,7 +46,7 @@ duration decimal
 
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists (
-artist_id varchar NOT NULL, 
+artist_id varchar PRIMARY KEY NOT NULL, 
 name varchar, 
 location varchar, 
 latitude decimal, 
@@ -56,7 +56,7 @@ longitude decimal)
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time (
-start_time time NOT NULL, 
+start_time TIMESTAMP PRIMARY KEY NOT NULL, 
 hour int, 
 day int, 
 week int, 
@@ -83,16 +83,19 @@ INSERT INTO users VALUES (%s, %s, %s, %s,%s) ON CONFLICT (user_id) DO UPDATE SET
 """)
 
 song_table_insert = ("""
-INSERT INTO songs VALUES (%s, %s, %s, %s,%s);
+INSERT INTO songs VALUES (%s, %s, %s, %s,%s) ON CONFLICT (song_id) DO UPDATE SET title = EXCLUDED.title, artist_id = EXCLUDED.artist_id, \
+year = EXCLUDED.year, duration = EXCLUDED.duration;
 """)
 
 artist_table_insert = ("""
-INSERT INTO artists VALUES (%s, %s, %s, %s,%s);
+INSERT INTO artists VALUES (%s, %s, %s, %s,%s) ON CONFLICT (artist_id) DO UPDATE SET name = EXCLUDED.name, location = EXCLUDED.location, \
+latitude = EXCLUDED.latitude, longitude = EXCLUDED.longitude;
 """)
 
 
 time_table_insert = ("""
-INSERT INTO time VALUES (%s, %s, %s, %s,%s,%s,%s);
+INSERT INTO time VALUES (%s, %s, %s, %s,%s,%s,%s) ON CONFLICT (start_time) DO UPDATE SET hour = EXCLUDED.hour, day = EXCLUDED.day, \
+week = EXCLUDED.week, month = EXCLUDED.month,year= EXCLUDED.year,weekday= EXCLUDED.weekday;
 """)
 
 # FIND SONGS

@@ -10,9 +10,7 @@ import string
 def process_song_file(cur, filepath):
     
     """
-     process_song_file(cur, filepath)
-     takes in JSON log filepath and parse the data for each file and stores it ina dataframe
-     
+     process_song_file(cur, filepath), takes in JSON log filepath and parse the data for each file and stores it ina dataframe. 
      The dataframe is then used to insert into song and artist tables
     """
     
@@ -30,7 +28,7 @@ def process_song_file(cur, filepath):
 
 def process_log_file(cur, filepath):
     
-     """
+    """
      process_log_file(cur, filepath)
      takes in JSON log filepath and parse the data for each file and stores it ina dataframe
      

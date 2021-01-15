@@ -42,14 +42,18 @@ def process_log_file(cur, filepath):
     df = df = df.loc[df['page'] == 'NextSong']
 
     # convert timestamp column to datetime
-    df['date'] =  pd.to_datetime(df['ts']) ## pandas recognizes your format
-    df['time'] = df['date'].dt.time
+    ## pandas recognizes your format
+    df['date'] =  pd.to_datetime(df['ts']) 
+    #df['time'] = df['date'].dt.time
+    df['time'] = df['date']
     df['hour'] = df['date'].dt.hour
     df['day'] = df['date'].dt.day
     df['weekofyear'] = df['date'].dt.weekofyear
     df['month'] = df['date'].dt.month
     df['year_from_ts'] = df['date'].dt.year
     df['weekday'] = df['date'].dt.weekday
+    
+    
     
     t = df[['ts','date','time','hour','day','weekofyear','month','year_from_ts','weekday']]
     

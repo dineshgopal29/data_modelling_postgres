@@ -99,8 +99,27 @@ The fact table contains information about songs, artist and the metadata related
 
 We will be using a combination of the data set and JOIN queries to get the data for songplay table which will be used by the analytics team.
 
+### Step 4: Executing Scripts
 
-### Step 4: Run Analytical Queries
+#### Project Setup
+
+The project has following files
+* sql_quries.py - Contains all DDL SQL sueries needed for ETL pipeline
+* create_tables.py - Started script to setup databse schema and data tables
+* etl.py - Production ETL script to extract data from raw JSON log files and insert to the data ETL tables
+* test.ipynb - Starter client jupyter notebook to run all our ETL scripts
+* etl.ipynb - Jupyter notebook to test and validate queires for ETL scripts
+
+#### ETL Script Execution
+
+For the data load we have to run the scripts in the following sequence
+* Run the Drop and Create scripts to setup the database and corresponding data tables
+* Run ETL.py script to extract and load the data
+* Run query below to validate the data 
+
+> %sql SELECT * FROM songplays where song_id is NOT NULL and artist_id is NOT NULL LIMIT 5;
+
+### Step 5: Run Analytical Queries
 Using the **songsplay table**, the analytics team can run analysis on the user activity to identify the songs trending among the customer base. Some of the queries can be as follows
 
 * Most popular song amoung the user base 
